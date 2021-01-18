@@ -143,9 +143,10 @@ const StockDetailPage = (props) => {
                         onMouseEnter = {() => false}
                     />
                     <div className="buttonBlock"> 
-                        <button onClick={handleBuySellHoldPercent} value="Buy">Buy</button> 
-                        <button onClick={handleBuySellHoldPercent} value="Sell">Sell</button>
-                        <button onClick={handleBuySellHoldPercent} value="Hold">Hold</button>
+                        {/* {JSON.stringify(Object.keys(userChoiceFromStorage).length)} */}
+                        { (userChoiceFromStorage.stockName !== props.match.params.stockName || ((userChoiceFromStorage.action !== "BUY" ) && (userChoiceFromStorage.stockName === props.match.params.stockName || !userChoiceFromStorage.stockName ))) && <button onClick={handleBuySellHoldPercent} value="Buy">Buy</button>} 
+                        { (userChoiceFromStorage.stockName !== props.match.params.stockName || ((userChoiceFromStorage.action !== "SELL") && (userChoiceFromStorage.stockName === props.match.params.stockName || !userChoiceFromStorage.stockName ))) && <button onClick={handleBuySellHoldPercent} value="Sell">Sell</button>}
+                        { (userChoiceFromStorage.stockName !== props.match.params.stockName || ((userChoiceFromStorage.action !== "HOLD") && (userChoiceFromStorage.stockName === props.match.params.stockName || !userChoiceFromStorage.stockName ))) && <button onClick={handleBuySellHoldPercent} value="Hold">Hold</button>}
                     </div>
                 </div>
                 <div className="chatBlock">
@@ -156,5 +157,8 @@ const StockDetailPage = (props) => {
         </>
     )
 }
+
+
+//  (userChoiceFromStorage.stockName !== props.match.params.stockName || ((userChoiceFromStorage.action !== "BUY" ) && (userChoiceFromStorage.stockName === props.match.params.stockName || !userChoiceFromStorage.stockName ))) && <button onClick={handleBuySellHoldPercent} value="Buy">Buy</button>
 
 export default StockDetailPage;
