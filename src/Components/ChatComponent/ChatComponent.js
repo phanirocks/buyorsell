@@ -6,7 +6,6 @@ import "./ChatComponent.css"
 
 const ChatComponent = ({ stockName }) => {
     
-    // const [retrieveMessages, setRetrieveMessages] = useState([])
     const [currentMessage, setCurrentMessage] = useState("")
     const [allMessages, setAllMessages] = useState([])
     
@@ -25,19 +24,20 @@ const ChatComponent = ({ stockName }) => {
     }
 
     const getMessagesFromFirestore = async () => {
+        
+        //Retrieving the messages on page load
         let reference = await firestore.collection('stockDetails').where('stockName','==',stockName).get()
         reference.forEach(item => {
             setAllMessages(item.data().chatMessages)
         })
+
+        //Retrieving the messages on every snapshot change
+        firestore.collection('stockDetails').where('stockName','==', stockName).onSnapshot(querySnapshot => {
+            querySnapshot.docChanges().forEach(change => {
+                setAllMessages(change.doc.data().chatMessages)
+              });
+        })
     }
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            // getMessagesFromFirestore()
-        }, 10000) //10 seconds updation
-
-        return () => clearInterval(interval)
-    },[])
 
     useEffect(() => {
         getMessagesFromFirestore()
