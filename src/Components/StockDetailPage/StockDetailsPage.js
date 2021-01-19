@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DonutChart from 'react-donut-chart';
 import { createStockDocument , firestore } from "../../FirebaseFunctions/firebase.utils";
-import publicIp from "public-ip";
+import ChatComponent from "../ChatComponent/ChatComponent"
 
 import "./StockDetailPage.css"
 
@@ -165,7 +165,7 @@ const StockDetailPage = (props) => {
                 </div>
                 <div className="chatBlock">
                     {/* Chat block */}
-                    <p>Chat here</p>
+                    <ChatComponent stockName={props.match.params.stockName}/>
                 </div>
             </div>
         </>

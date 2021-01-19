@@ -1,0 +1,34 @@
+.ChatBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chatMessages {
+    /* border: 2px solid rgb(185, 94, 94); */
+    /* height: 500px; */
+    width: 500px;
+    padding: 7px 0 20px 0;
+    /* color: white; */
+    font-size: large;
+
+}
+
+.singleMessage {
+    background-color: #74c6c4;
+    border-radius: 10px;
+    /* text-align: left; */
+    /* padding: 0 0 0 40px; */
+    padding: 3px 20px;
+    margin-top: 10px;
+    /* height: 40px; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+
+}
