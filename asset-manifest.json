@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/buyorsell/static/css/main.0c7474ec.chunk.css",
+    "main.js": "/buyorsell/static/js/main.f7f8592d.chunk.js",
+    "main.js.map": "/buyorsell/static/js/main.f7f8592d.chunk.js.map",
+    "runtime-main.js": "/buyorsell/static/js/runtime-main.3a5f3f12.js",
+    "runtime-main.js.map": "/buyorsell/static/js/runtime-main.3a5f3f12.js.map",
+    "static/js/2.2b09b93a.chunk.js": "/buyorsell/static/js/2.2b09b93a.chunk.js",
+    "static/js/2.2b09b93a.chunk.js.map": "/buyorsell/static/js/2.2b09b93a.chunk.js.map",
+    "static/js/3.0a3bfa72.chunk.js": "/buyorsell/static/js/3.0a3bfa72.chunk.js",
+    "static/js/3.0a3bfa72.chunk.js.map": "/buyorsell/static/js/3.0a3bfa72.chunk.js.map",
+    "index.html": "/buyorsell/index.html",
+    "static/css/main.0c7474ec.chunk.css.map": "/buyorsell/static/css/main.0c7474ec.chunk.css.map",
+    "static/js/2.2b09b93a.chunk.js.LICENSE.txt": "/buyorsell/static/js/2.2b09b93a.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3a5f3f12.js",
+    "static/js/2.2b09b93a.chunk.js",
+    "static/css/main.0c7474ec.chunk.css",
+    "static/js/main.f7f8592d.chunk.js"
+  ]
+}
