@@ -50,7 +50,7 @@ const Search = () => {
                     searchedData.map((item, index) => {
                         return (
                             <div key={index}>
-                                <Link to={"/stocks/"+item.SYMBOL} target="_blank" className="stockRedirectLink">{ item.SYMBOL }</Link>
+                                <Link to={"/stocks/"+item.SYMBOL} target="_blank" className="stockRedirectLink">{ item.SYMBOL }- { item['NAME OF COMPANY'] }</Link>
                             </div>
                         )
                     })    
