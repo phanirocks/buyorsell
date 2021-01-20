@@ -28,10 +28,9 @@ const Search = () => {
     const handleSearchQueryChange = e => {
         let query = e.target.value
         setSearchQuery(query)
-        // console.log(e.target.value)
 
         if(query.length > 0) {
-            const filteredItems = allStocksData.filter(item => (item.SYMBOL.toLowerCase().includes(query.toLowerCase()) || item['NAME OF COMPANY'].toLowerCase().includes(query.toLowerCase())))
+            const filteredItems = allStocksData.filter(item => (item.SYMBOL.toLowerCase().startsWith(query.toLowerCase()) || item['NAME OF COMPANY'].toLowerCase().startsWith(query.toLowerCase())))
             setSearchedData(filteredItems)
             // console.log(32, filteredItems)
         } else {
