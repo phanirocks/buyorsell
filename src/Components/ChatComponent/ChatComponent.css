@@ -1,28 +1,40 @@
-.ChatBlock {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.chatBlock {
+    position: fixed;
+    top: 100px;
+    right: 80px;
+    bottom: 20px;
+    width: 40%;
+    padding: 20px 0px 20px 40px;
+    background-color: #fafafa;
+    box-sizing: border-box;
+    border-radius: 10px;
+    box-shadow: 0px 1px 4px RGBa(0,0,0,0.18);
+}
+
+.chatTitle {
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .chatMessages {
-    /* border: 2px solid rgb(185, 94, 94); */
-    /* height: 500px; */
-    width: 500px;
     padding: 7px 0 20px 0;
-    /* color: white; */
     font-size: large;
-
+    overflow-y: scroll;
+    /* overflow-x: hidden; */
+    height: 75%;
+    box-shadow: 0px 8px 6px -6px RGBa(0,0,0,0.18);
+    /* border-radius: 10px; */
+    width: 95%;
 }
 
 .singleMessage {
-    background-color: #74c6c4;
-    border-radius: 10px;
-    /* text-align: left; */
-    /* padding: 0 0 0 40px; */
+    background-color: #304d6d;
+    color: white;
+    border-radius: 5px;
     padding: 3px 20px;
     margin-top: 10px;
-    /* height: 40px; */
+    width: fit-content;
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -31,4 +43,61 @@
     word-wrap: break-word;
     hyphens: auto;
 
+    font-size: 15px;
+
+}
+
+.chatSendBlock {
+    position: relative;
+    bottom: -20px;
+    /* bottom: -20px; */
+    height: 10%;
+    width: 100%;
+    /* box-shadow: 0px 1px 4px RGBa(0,0,0,0.18); */
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.goTopButton {
+    padding: 7px;
+    margin-right: 40px;
+    border-radius: 5px;
+    outline: none;
+    border: 0;
+    box-shadow: 0px 1px 4px RGBa(0,0,0,0.18);
+    background-color: #a7cced;
+    position: fixed;
+    bottom: 200px;
+    right: 100px;
+    cursor: pointer;
+    font-size: 20px;
+    /* color: white; */
+    background-color: #faa4bd;
+}
+
+.chatSendBlock-input {
+    position: relative;
+    /* left: -45px; */
+    width: 80%;
+    height: 90%;
+    box-shadow: 0px 1px 4px RGBa(0,0,0,0.18);
+    border: 0;
+    border-radius: 10px;
+    padding: 0 15px;
+    outline: none;
+    font-size: 16px;
+}
+
+.chatSendBlock-send {
+    padding: 7px;
+    margin-right: 40px;
+    border-radius: 5px;
+    outline: none;
+    border: 0;
+    box-shadow: 0px 1px 4px RGBa(0,0,0,0.18);
+    background-color: #a7cced;
+    cursor: pointer;
 }

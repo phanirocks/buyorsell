@@ -6,10 +6,12 @@
 }
 
 .stockDetailPage-Content {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    position: fixed;
+    top: 60px;
+    left: 30px;
+    bottom: 90px;
+    width: 60%;
+
 }
 
 .buttonBlock {
@@ -21,8 +23,27 @@
     margin: 10% 0 0 10%;
 }
 
-.chatBlock {
-    height: 90vh;
-    border-left: 2px solid black;
-    width: 40%;
+.buyButton, .sellButton, .holdButton {
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 15px;
+    box-shadow: 0px 1px 4px RGBa(0,0,0,0.18);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.buyButton {
+    background-color: #2a9d8f;
+}
+
+.sellButton {
+    background-color: #e76f51;
+
+}
+
+.holdButton {
+    background-color: #e9c46a;
+    color: black;
 }

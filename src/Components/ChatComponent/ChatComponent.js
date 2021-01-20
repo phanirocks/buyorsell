@@ -1,6 +1,7 @@
-import React,{ useState, useEffect } from "react"
+import React,{ useState, useEffect, createRef } from "react"
 import firebase from "firebase/app";
 import { firestore } from "../../FirebaseFunctions/firebase.utils"
+import { IoIosArrowDropup } from "react-icons/io"
 
 import "./ChatComponent.css"
 
@@ -8,6 +9,26 @@ const ChatComponent = ({ stockName }) => {
     
     const [currentMessage, setCurrentMessage] = useState("")
     const [allMessages, setAllMessages] = useState([])
+
+    //This ref is attached to the div in chatMessage block below
+    const messagesEndRef = createRef()
+
+    useEffect(() => {
+        scrollToBottom()
+    },[allMessages])
+
+    const scrollToBottom = () => {
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+    //End of ref
+
+    // //Start ref
+    // const messageStartRef = createRef()
+
+    // const scrollTop = () => {
+    //     messageStartRef.current.scrollIntoView({ behavior: 'smooth' })
+    // }
+    // //End of the start ref
     
     const handleMessageChange = e => {
         let message = e.target.value
@@ -35,6 +56,7 @@ const ChatComponent = ({ stockName }) => {
         firestore.collection('stockDetails').where('stockName','==', stockName).onSnapshot(querySnapshot => {
             querySnapshot.docChanges().forEach(change => {
                 setAllMessages(change.doc.data().chatMessages)
+                console.log(38, change.doc.data())
               });
         })
     }
@@ -45,20 +67,23 @@ const ChatComponent = ({ stockName }) => {
 
     return (
         <div>
-            <h3>Discuss about {stockName}</h3>
-            <div className="ChatBlock">
+            <div className="chatBlock">
+                <p className="chatTitle">{stockName} discussion</p>
                 <div className="chatMessages">
-                    {allMessages && allMessages.slice(Math.max(allMessages.length -8,0)).map((message, index) => {
+                    {/* <div ref={messageStartRef} /> */}
+                    {allMessages && allMessages.map((message, index) => {
                         return (
                             <div key={index} className="singleMessage">
                                 <p>{message}</p>
                             </div>
                         )
                     })}
+                    {/* <button onClick={scrollTop} className="goTopButton"><IoIosArrowDropup /></button> */}
+                    <div ref={messagesEndRef} />
                 </div>
-                <div className="chatInputButtons">
-                    <input type="text" placeholder="enter your message here" onChange={handleMessageChange} value={currentMessage}/>
-                    <button onClick={handleSendMessage}>Send</button>
+                <div className="chatSendBlock">
+                    <input type="text" placeholder="enter your message here" onChange={handleMessageChange} value={currentMessage} className="chatSendBlock-input"/>
+                    <button onClick={handleSendMessage} className="chatSendBlock-send">Send</button>
                 </div>
             </div>
         </div>
