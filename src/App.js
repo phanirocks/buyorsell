@@ -2,6 +2,7 @@ import React from "react"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 import Home from "./Components/Home/Home"
 import StockDetailPage from "./Components/StockDetailPage/StockDetailsPage"
+import { ToastProvider } from "react-toast-notifications"
 
 import './App.css';
 
@@ -11,7 +12,9 @@ function App() {
       <div className="App">
         <Switch>
           <Route path='/' component={Home} exact />
-          <Route path='/stocks/:stockName' component={StockDetailPage} exact />
+          <ToastProvider>
+            <Route path='/stocks/:stockName' component={StockDetailPage} exact />
+          </ToastProvider>
         </Switch>
       </div>
     </BrowserRouter>

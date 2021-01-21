@@ -20,12 +20,42 @@ firebase.initializeApp(firebaseConfig);
 export const firestore = firebase.firestore()
 
 //Creating stock document
+// export const createSessionIdDocument = async (sessionIdNumber, stock) => {
+//     if(sessionIdNumber){
+//         let reference = firestore.doc(`stockDetails/${sessionIdNumber}`)
+//         let snapshot = await reference.get()
+//         if(!snapshot.exists){
+//             let createdAt = new Date()
+//             let stockName = stock;
+//             let sessionId = sessionIdNumber
+//             let choice = ""
+//             // let chatMessages = []
+//             try {
+//                 reference.set({
+//                     stockName,
+//                     sessionId,
+//                     choice,
+//                     // chatMessages,
+//                     // buyPercent,
+//                     // sellPercent,
+//                     // holdPercent,
+//                     createdAt
+//                 })
+//             } catch (e) {
+//                 console.log(`${e.message} is the error`)
+//             }
+//         } else {
+//             return sessionIdNumber;
+//         }
+//     }
+//   }
+
 export const createStockDocument = async (stock) => {
-    if(stock){
+    if(stock) {
         let reference = firestore.doc(`stockDetails/${stock}`)
         let snapshot = await reference.get()
         if(!snapshot.exists){
-            let createdAt = new Date()
+            let createdAt = new Date()            
             let stockName = stock;
             let chatMessages = []
             let buyPercent = 0
@@ -38,7 +68,7 @@ export const createStockDocument = async (stock) => {
                     buyPercent,
                     sellPercent,
                     holdPercent,
-                    createdAt
+                    createdAt                
                 })
             } catch (e) {
                 console.log(`${e.message} is the error`)
@@ -47,4 +77,4 @@ export const createStockDocument = async (stock) => {
             return stock;
         }
     }
-  }
+}

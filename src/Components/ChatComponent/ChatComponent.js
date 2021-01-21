@@ -1,7 +1,7 @@
 import React,{ useState, useEffect, createRef } from "react"
 import firebase from "firebase/app";
-import { firestore } from "../../FirebaseFunctions/firebase.utils"
-import { IoIosArrowDropup } from "react-icons/io"
+import { createStockDocument, firestore } from "../../FirebaseFunctions/firebase.utils"
+// import { IoIosArrowDropup } from "react-icons/io"
 
 import "./ChatComponent.css"
 
@@ -9,6 +9,10 @@ const ChatComponent = ({ stockName }) => {
     
     const [currentMessage, setCurrentMessage] = useState("")
     const [allMessages, setAllMessages] = useState([])
+
+    // useEffect(() => {
+    //     createStockDocument(stockName)
+    // },[])
 
     //This ref is attached to the div in chatMessage block below
     const messagesEndRef = createRef()
@@ -53,10 +57,9 @@ const ChatComponent = ({ stockName }) => {
         })
 
         //Retrieving the messages on every snapshot change
-        firestore.collection('stockDetails').where('stockName','==', stockName).onSnapshot(querySnapshot => {
+        firestore.collection('stockChat').where('stockDetails','==', stockName).onSnapshot(querySnapshot => {
             querySnapshot.docChanges().forEach(change => {
                 setAllMessages(change.doc.data().chatMessages)
-                console.log(38, change.doc.data())
               });
         })
     }

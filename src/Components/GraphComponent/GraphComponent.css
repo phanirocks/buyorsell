@@ -31,3 +31,7 @@
     background-color: #e9c46a;
     color: black;
 }
+
+.disabled {
+    opacity: 0.4;
+}
