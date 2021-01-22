@@ -21,7 +21,7 @@ const GraphComponent = ({ stockName }) => {
     },[])
 
     const [sessionId, setSessionId] = useState("")
-    //Session ID code block
+    //Session ID code block ----- CAN BE REMOVED
         const generateSessionId = () => {
             const now = new Date()
 
@@ -42,70 +42,14 @@ const GraphComponent = ({ stockName }) => {
         },[])
     //End of sessionid block
 
-
-    // useEffect(() => {
-    //     let currentStock;
-
-    //     if(localStorage.getItem(stockName)) {
-    //         let data = JSON.parse(localStorage.getItem(`${stockName}`))
-    //         currentStock = data.stockName
-    //     }
-
-    //     if(!localStorage.getItem(stockName) && currentStock !== stockName) {
-    //         if(sessionId) {
-    //             // createSessionIdDocument(sessionId, stockName)
-    //             if(localStorage['sessionIdList']) {
-    //                 let sessionListFromStorage = JSON.parse(localStorage['sessionIdList'])
-    //                 sessionListFromStorage.push(sessionId)
-    //                 localStorage.setItem("sessionIdList", JSON.stringify(sessionListFromStorage))
-    //             } else {
-    //                 let sessionIdList = []
-    //                 sessionIdList.push(sessionId)
-
-    //                 localStorage.setItem("sessionIdList", JSON.stringify(sessionIdList))
-    //             }
-    //         }
-    //     }
-    // },[sessionId])
-
     const getPercentDetailsFirestore = async () => {
 
-        // let ar1 = ['1234567890','1611210407790']
-
-            // let buyCount = 0
-            // let sellCount = 0
-            // let hodlCount = 0
-
-            // let userChoiceList = []
-
             let reference = await firestore.collection('stockDetails').where('stockName','==',stockName).get()
-            // reference.forEach(item => {
-            //     console.log(73,item.data().choice)
-            //     if(item.data().choice === "SELL") {
-            //         sellCount = sellCount + 1
-            //         console.log(sellCount)
-            //         setSellValue(sellCount)
-            //     } else if(item.data().choice === "BUY") {
-            //         buyCount = buyCount + 1
-            //         console.log(buyCount)
-            //         setBuyValue(buyCount)
-            //     } else if(item.data().choice === "HOLD") {
-            //         setSellValue(sellValue + 1)
-            //     }
-            // })
-            // console.log(reference.length, reference)
             reference.forEach(item => {
-                // console.log(item.data().choice)
-                // // if(item.data().choice === "BUY") {
-                // //     buyCount++
-                // // }
-                // // setBuyValue(buyCount)
-                // userChoiceList.push(item.data().choice)
                 setBuyValue(item.data().buyPercent)
                 setSellValue(item.data().sellPercent)
                 setHoldValue(item.data().holdPercent)
             })
-            // setUserChoice(userChoiceList)
 
             //Retrieving the chart data on every snapshot change
             firestore.collection('stockDetails').where('stockName','==', stockName).onSnapshot(querySnapshot => {
@@ -113,8 +57,6 @@ const GraphComponent = ({ stockName }) => {
                     setBuyValue(change.doc.data().buyPercent)
                     setSellValue(change.doc.data().sellPercent)
                     setHoldValue(change.doc.data().holdPercent)
-                    // // setUserChoice(change.doc.data().choice)
-                    // console.log(110,change.doc.data())
                 });
             })        
     }
@@ -127,6 +69,7 @@ const GraphComponent = ({ stockName }) => {
     const notify = () => addToast("Duplicate vote!\nTry choosing other options if you change you view about this stock", { appearance : 'error', autoDismiss: true })
 
     const handleBuySellHoldButtonClick = async e => {
+        
         let buttonValue = e.target.value
         console.log(47, e.target.className)
         let buttonClassName = e.target.className
@@ -134,74 +77,150 @@ const GraphComponent = ({ stockName }) => {
             notify()
         } else {
             if(buttonValue === "Buy") {
-                setButtonClicked(true)
-                setBuyValue(buyValue + 1)
-                localStorage.setItem(`${stockName}`,JSON.stringify({stockName: stockName , action: 'BUY', sessionId: sessionId}))
-                await firestore.doc(`/stockDetails/${stockName}`).update({
-                    buyPercent : buyValue + 1
-                })
-                setButtonClicked(false)
+                if(localStorage.getItem(`STOCK-${stockName}`)) {
+                    let oldValueInLocalStorage = JSON.parse(localStorage.getItem(`STOCK-${stockName}`))
+                    console.log(140, oldValueInLocalStorage)
+
+                    //Checking for the old choice
+                    oldValueInLocalStorage.action === "SELL"
+                        ?
+                    (await firestore.doc(`/stockDetails/${stockName}`).update({
+                        sellPercent : sellValue - 1
+                    }))
+                        :
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        holdPercent : holdValue - 1
+                    })
+                    //End of check
+
+                    setBuyValue(buyValue + 1)
+                    localStorage.setItem(`STOCK-${stockName}`,JSON.stringify({stockName: stockName , action: 'BUY', sessionId: sessionId , expiry: new Date().getTime() + 90000}))
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        buyPercent : buyValue + 1
+                    })
+                    setButtonClicked(true)
+                    setButtonClicked(false)
+                } else {
+                    setBuyValue(buyValue + 1)
+                    localStorage.setItem(`STOCK-${stockName}`,JSON.stringify({stockName: stockName , action: 'BUY', sessionId: sessionId , expiry: new Date().getTime() + 90000}))
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        buyPercent : buyValue + 1
+                    })
+                    setButtonClicked(true)
+                    setButtonClicked(false)                    
+                }
+                
             } else if(buttonValue === "Sell") {
-                setButtonClicked(true)
-                setSellValue(sellValue + 1)
-                localStorage.setItem(`${stockName}`,JSON.stringify({stockName: stockName , action: 'SELL', sessionId: sessionId}))
-                await firestore.doc(`/stockDetails/${stockName}`).update({
-                    sellPercent : sellValue + 1
-                })
-                setButtonClicked(false)
-            } else {
-                setButtonClicked(true)
-                setHoldValue(holdValue + 1)
-                localStorage.setItem(`${stockName}`,JSON.stringify({stockName: stockName , action: 'HOLD', sessionId: sessionId}))
-                await firestore.doc(`/stockDetails/${stockName}`).update({
-                    holdPercent : holdValue + 1
-                })
-                setButtonClicked(false)
+                if(localStorage.getItem(`STOCK-${stockName}`)) {
+                    let oldValueInLocalStorage = JSON.parse(localStorage.getItem(`STOCK-${stockName}`))
+                    console.log(140, oldValueInLocalStorage)
+
+
+                    //Checking for the old choice
+                    oldValueInLocalStorage.action === "BUY"
+                        ?
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        buyPercent : buyValue - 1
+                    })
+                        :
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        holdPercent : holdValue - 1
+                    })
+                    //End of check
+
+                    localStorage.setItem(`STOCK-${stockName}`,JSON.stringify({stockName: stockName , action: 'SELL', sessionId: sessionId , expiry: new Date().getTime() + 90000}))
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        sellPercent : sellValue + 1
+                    })
+                    setButtonClicked(true)
+                    setButtonClicked(false)
+                } else {
+                    setSellValue(sellValue + 1)
+                    localStorage.setItem(`STOCK-${stockName}`,JSON.stringify({stockName: stockName , action: 'SELL', sessionId: sessionId , expiry: new Date().getTime() + 90000}))
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        sellPercent : sellValue + 1
+                    })
+                    setButtonClicked(true)
+                    setButtonClicked(false)
+                }
+                
+                
+            } else {                
+                if(localStorage.getItem(`STOCK-${stockName}`)) {
+                    let oldValueInLocalStorage = JSON.parse(localStorage.getItem(`STOCK-${stockName}`))
+                    console.log(140, oldValueInLocalStorage)
+
+                    //Checking for the old choice
+                    oldValueInLocalStorage.action === "BUY" 
+                        ? 
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        buyPercent : buyValue - 1
+                    })
+                        :
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        sellPercent : sellValue - 1
+                    })
+                    //End of check
+
+                    localStorage.setItem(`STOCK-${stockName}`,JSON.stringify({stockName: stockName , action: 'HOLD', sessionId: sessionId , expiry: new Date().getTime() + 90000}))
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        holdPercent : holdValue + 1
+                    })
+                    setButtonClicked(true)
+                    setButtonClicked(false)
+                } else {
+                    // setHoldValue(holdValue + 1)
+                    localStorage.setItem(`STOCK-${stockName}`,JSON.stringify({stockName: stockName , action: 'HOLD', sessionId: sessionId , expiry: new Date().getTime() + 90000}))
+
+                    await firestore.doc(`/stockDetails/${stockName}`).update({
+                        holdPercent : holdValue + 1
+                    })
+                    setButtonClicked(true)
+                    setButtonClicked(false)
+                }
+                
             }
-        }   
+        }
+        setButtonClicked(false)   
     }
 
-    //Deleting firestore document after 15 mins
-    // const deleteDocumentFromFirestore = async () => {
-    //     if(localStorage.getItem(`${stockName}`)) {
-    //         let data = JSON.parse(localStorage.getItem(`${stockName}`))
-    //         // data.sessionId
-    //         await firestore.collection('stockDetails').doc(String(data.sessionId)).delete()
-    //     }
-    // }
-    // This deletes the sessions if only a user selects a choice like "Buy/sell/hold". If the user didnt select anything, the sessions will still be present in the database
-    // To tackle that, we are maintaining a sessionList in localstorage which stores every session.
-    // In regular intervals, it iterates through the list and if any item in that list is not present in the localstorage(i.e sessions where user didnt select any options), 
-    //      it will delete them in the firestore. (This is yet to be implemented)
-    // This way we delete all the documents of session in the firestore collection 
-
-
-    //Removing LocalStorage after 15 mins
-    useEffect(() => {
-        console.log(128, sessionId)
-        if(localStorage.getItem(`${stockName}`)) {
-            // setTimeout(() => {
-            //     deleteDocumentFromFirestore()
-            // },5000)
-            setTimeout(() => {
-                localStorage.removeItem(`${stockName}`)
-            }, 6000)  // set for 15 minutes currently
-        }
+    //Deleting elements from localstorage based on the expiry key
+    const deleteFromLocalStorage = () => {
         
+        console.log("Starting", 205)
+        let stockListFromLocalStorage = []
+
+        for(let i in localStorage){
+            if(i.startsWith("STOCK")) {
+                stockListFromLocalStorage.push(i)
+            }
+        }
+        if(stockListFromLocalStorage.length > 0) {
+            stockListFromLocalStorage.forEach(item => {
+                if(JSON.parse(localStorage[item]).expiry < new Date().getTime() ) {
+                    localStorage.removeItem(item)
+                }
+            })
+        }
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            deleteFromLocalStorage()
+        },60000)
+
+        return () => clearInterval(interval)
     },[])
 
-    // useEffect(() => {
-    //     deleteDocumentFromFirestore()
-    // },[])
 
     //GETTING USER CHOICE FROM LOCAL STORAGE
     const getUserChoiceFromStorage = () => {
-        let storageData = JSON.parse(localStorage.getItem(`${stockName}`))
+        let storageData = JSON.parse(localStorage.getItem(`STOCK-${stockName}`))
         setUserChoiceFromStorage(storageData)  // SETUSERCHOICE IS A STATE CONTAINER; GETUSERCHOICE IS A FUNCTION
     }
 
     useEffect(() => {
-        let storageData = localStorage.getItem(`${stockName}`)
+        let storageData = localStorage.getItem(`STOCK-${stockName}`)
         if(!storageData) {
             setUserChoiceFromStorage({})
         } else {
