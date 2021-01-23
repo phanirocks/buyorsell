@@ -68,7 +68,7 @@ const ChatComponent = ({ stockName }) => {
     return (
         <div>
             <div className="chatBlock">
-                <p className="chatTitle">{stockName} discussion</p>
+                {/* <p className="chatTitle">{stockName} discussion</p> */}
                 <div className="chatMessages">
                     {/* <div ref={messageStartRef} /> */}
                     {allMessages && allMessages.map((message, index) => {
