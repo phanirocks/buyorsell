@@ -14,8 +14,10 @@ function App() {
         <Switch>
           <Route path='/' component={Home} exact />
           <ToastProvider>
-            <Route path='/stocks/:stockName' component={StockDetailPage} exact />
-            <Route component={ErrorComponent} />
+            <Switch>
+              <Route path='/stocks/:stockName' component={StockDetailPage} exact />
+              <Route component={ErrorComponent} />
+            </Switch>
           </ToastProvider>
         </Switch>
       </div>

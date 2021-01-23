@@ -20,5 +20,6 @@
 }
 
 .errorComponent-link {
-    font-size: large;
+    font-size: 21pt;
+    color: rgb(222, 98, 98);
 }
