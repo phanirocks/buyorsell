@@ -269,13 +269,13 @@ const GraphComponent = ({ stockName }) => {
                     <div className="buyColorMin"></div>
                     <p>BUY: {buyPercent}%</p>
                 </div>
-                <div className="minBlockSell">
-                    <div className="selLColorMin"></div>
-                    <p>SELL: { sellPercent }%</p>
-                </div>
                 <div className="minBlockHold">
                     <div className="holdColorMin"></div>
                     <p>HOLD: { holdPercent }%</p>
+                </div>
+                <div className="minBlockSell">
+                    <div className="selLColorMin"></div>
+                    <p>SELL: { sellPercent }%</p>
                 </div>
             </div>
             { (buyPercent > 0 || sellPercent > 0 || holdPercent > 0) ?
@@ -284,13 +284,13 @@ const GraphComponent = ({ stockName }) => {
                         {/* {buyPercent > 0 && <p className="barText">BUY</p> } */}
                         {/* {buyPercent > 0 && <p className="barText">{ buyPercent }%</p> } */}
                     </div>
-                    <div className="sellBlock" style={{ width: sellPercent+"%" }}>
-                        {/* {sellPercent >0 && <p className="barText">SELL</p>} */}
-                        {/* {sellPercent >0 && <p className="barText">{ sellPercent }%</p>} */}
-                    </div>
                     <div className="holdBlock" style={{ width: holdPercent+"%" }}>
                         {/* { holdPercent > 0 && <p className="barText">HOLD</p>} */}
                         {/* { holdPercent > 0 && <p className="barText">{ holdPercent }%</p>} */}
+                    </div>
+                    <div className="sellBlock" style={{ width: sellPercent+"%" }}>
+                        {/* {sellPercent >0 && <p className="barText">SELL</p>} */}
+                        {/* {sellPercent >0 && <p className="barText">{ sellPercent }%</p>} */}
                     </div>
                 </div> :
                 <div>
@@ -300,11 +300,8 @@ const GraphComponent = ({ stockName }) => {
             
             <div className="buttonBlock"> 
                 <button onClick={handleBuySellHoldButtonClick} value="Buy" className={displayBuyButton ? "buyButton" : "buyButton disabled"}>Buy</button>
-
-                <button onClick={handleBuySellHoldButtonClick} value="Sell" className={displaySellButton ? "sellButton" : "sellButton disabled"}>Sell</button>
-
                 <button onClick={handleBuySellHoldButtonClick} value="Hold" className={displayHoldButton ? "holdButton" : "holdButton disabled"}>Hold</button>
-
+                <button onClick={handleBuySellHoldButtonClick} value="Sell" className={displaySellButton ? "sellButton" : "sellButton disabled"}>Sell</button>
             </div>
         </div>
     )
