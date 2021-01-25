@@ -1,10 +1,62 @@
+.minColorBlock {
+    position: relative;
+    bottom: 150px;
+    left: 700px;
+    font-size: 14px;
+}
+
+.minBlockBuy {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 150px;
+}
+
+.minBlockSell {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 150px;
+}
+
+.minBlockHold {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 150px;
+}
+
+.buyColorMin, .selLColorMin, .holdColorMin {
+    width: 20px;
+    height: 20px;
+    border-radius: 0 0 10px 10px;
+}
+
+.buyColorMin {
+    background-color: #2a9d8f;
+}
+
+.selLColorMin {
+    background-color: #e76f51;
+}
+
+.holdColorMin {
+    background-color: #e9c46a;
+}
+
 .buttonBlock {
     display: flex;
     justify-content: space-around;
     align-items: center;
     /* border: 2px solid red; */
     width: 50%;
-    margin: 10% 0 0 10%;
+    margin: 10% 0 0 20%;
+    position: fixed;
+    top: 500px;
+    left: -340px;
 }
 
 .buyButton, .sellButton, .holdButton {
@@ -34,4 +86,51 @@
 
 .disabled {
     opacity: 0.4;
+}
+
+.barGraph {
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    width: 800px;
+}
+
+.buyBlock, .sellBlock, .holdBlock {
+    height: 50px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.buyBlock {
+    background-color: #2a9d8f;
+    /* width: 200px; */
+    border-radius: 5px 0 0 5px;
+}
+
+.sellBlock {
+    background-color: #e76f51;
+    /* width: 200px; */
+}
+
+.holdBlock {
+    background-color: #e9c46a;
+    /* width: 200px; */
+    border-radius: 0 5px 5px 0;
+}
+
+.barText {
+    color: white;
+    position: relative;
+    /* top: -24px; */
+    font-size: x-large;
+}
+
+.noVotes-text {
+    font-size: x-large;
 }
