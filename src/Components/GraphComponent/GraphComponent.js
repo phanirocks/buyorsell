@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import DonutChart from 'react-donut-chart';
 import { createStockDocument , firestore } from "../../FirebaseFunctions/firebase.utils";
 import { useToasts } from 'react-toast-notifications';
+import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
+import { MdSentimentNeutral } from "react-icons/md";
+
 
 import "./GraphComponent.css"
 
@@ -46,10 +48,12 @@ const GraphComponent = ({ stockName }) => {
 
             let reference = await firestore.collection('stockDetails').where('stockName','==',stockName).get()
             reference.forEach(item => {
-                setBuyValue(item.data().buyPercent)
-                setSellValue(item.data().sellPercent)
-                setHoldValue(item.data().holdPercent)
+                setBuyValue(parseFloat(item.data().buyPercent))
+                setSellValue(parseFloat(item.data().sellPercent))
+                setHoldValue(parseFloat(item.data().holdPercent))
+                // console.log("item.data.hodlPercent", item.data().holdPercent)
             })
+            
 
             //Retrieving the chart data on every snapshot change
             firestore.collection('stockDetails').where('stockName','==', stockName).onSnapshot(querySnapshot => {
@@ -256,38 +260,53 @@ const GraphComponent = ({ stockName }) => {
         (userChoiceFromStorage.stockName !== stockName 
             || 
         ((userChoiceFromStorage.action !== "HOLD") && (userChoiceFromStorage.stockName === stockName || !userChoiceFromStorage.stockName )))
-        ? true : false
+    ? true : false
 
     return (
         <div>
-                    {/* Donut chart */}
-                    <DonutChart 
-                        data = {[
-                            {
-                                label: 'Buy',
-                                value: buyPercent
-                            },
-                            {
-                                label: 'Sell',
-                                value: sellPercent
-                            },
-                            {
-                                label: 'Hold',
-                                value: holdPercent
-                            }
-                        ]}
-                        colors = {['#2a9d8f' , '#e76f51', '#e9c46a']}
-                        onMouseEnter = {() => false}
-                    />
-                    <div className="buttonBlock"> 
-                        <button onClick={handleBuySellHoldButtonClick} value="Buy" className={displayBuyButton ? "buyButton" : "buyButton disabled"}>Buy</button>
-
-                        <button onClick={handleBuySellHoldButtonClick} value="Sell" className={displaySellButton ? "sellButton" : "sellButton disabled"}>Sell</button>
-
-                        <button onClick={handleBuySellHoldButtonClick} value="Hold" className={displayHoldButton ? "holdButton" : "holdButton disabled"}>Hold</button>
-
-                    </div>
+            <div className="minColorBlock">
+                <div className="minBlockBuy">
+                    <div className="buyColorMin"></div>
+                    <p>BUY: {buyPercent}%</p>
                 </div>
+                <div className="minBlockSell">
+                    <div className="selLColorMin"></div>
+                    <p>SELL: { sellPercent }%</p>
+                </div>
+                <div className="minBlockHold">
+                    <div className="holdColorMin"></div>
+                    <p>HOLD: { holdPercent }%</p>
+                </div>
+            </div>
+            { (buyPercent > 0 || sellPercent > 0 || holdPercent > 0) ?
+                <div className="barGraph">
+                    <div className="buyBlock" style={{ width: buyPercent+"%" }}>
+                        {/* {buyPercent > 0 && <p className="barText">BUY</p> } */}
+                        {/* {buyPercent > 0 && <p className="barText">{ buyPercent }%</p> } */}
+                    </div>
+                    <div className="sellBlock" style={{ width: sellPercent+"%" }}>
+                        {/* {sellPercent >0 && <p className="barText">SELL</p>} */}
+                        {/* {sellPercent >0 && <p className="barText">{ sellPercent }%</p>} */}
+                    </div>
+                    <div className="holdBlock" style={{ width: holdPercent+"%" }}>
+                        {/* { holdPercent > 0 && <p className="barText">HOLD</p>} */}
+                        {/* { holdPercent > 0 && <p className="barText">{ holdPercent }%</p>} */}
+                    </div>
+                </div> :
+                <div>
+                    <p className="noVotes-text">No votes yet! Choose one below</p>
+                </div>
+                }
+            
+            <div className="buttonBlock"> 
+                <button onClick={handleBuySellHoldButtonClick} value="Buy" className={displayBuyButton ? "buyButton" : "buyButton disabled"}>Buy</button>
+
+                <button onClick={handleBuySellHoldButtonClick} value="Sell" className={displaySellButton ? "sellButton" : "sellButton disabled"}>Sell</button>
+
+                <button onClick={handleBuySellHoldButtonClick} value="Hold" className={displayHoldButton ? "holdButton" : "holdButton disabled"}>Hold</button>
+
+            </div>
+        </div>
     )
 }
 
