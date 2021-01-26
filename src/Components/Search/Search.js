@@ -43,17 +43,19 @@ const Search = () => {
         <div>
             <div className="searchBlock">
                 <input type="text" placeholder="Search for a stock..." className="searchBox" onChange={handleSearchQueryChange} value={searchQuery}/>
-            </div>
-            <div>
-                { searchedData.length>0 && 
-                    searchedData.map((item, index) => {
-                        return (
-                            <div key={index}>
-                                <Link to={"/stocks/"+item.SYMBOL} target="_blank" className="stockRedirectLink">{ item.SYMBOL }- { item['NAME OF COMPANY'] }</Link>
-                            </div>
-                        )
-                    })    
-                }
+                <div>
+                    { searchedData.length>0 && 
+                        searchedData.map((item, index) => {
+                            return (
+                                <Link to={"/stocks/"+item.SYMBOL} target="_blank" className="stockRedirectLink">
+                                    <div key={index} className='searchSuggestion'>
+                                        { item.SYMBOL }<span className='companyName'>{ item['NAME OF COMPANY'] }</span>
+                                    </div>
+                                </Link>
+                            )
+                        })    
+                    }
+                </div>
             </div>
         </div>
     )

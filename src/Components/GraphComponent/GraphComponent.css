@@ -1,7 +1,8 @@
 .minColorBlock {
+    display: none;
     position: relative;
-    bottom: 200px;
-    left: 650px;
+    /* bottom: 150px;
+    left: 700px; */
     font-size: 14px;
     text-align: left;
     /* border: 2px solid red; */
@@ -52,63 +53,50 @@
 }
 
 .selLColorMin {
-    background-color: #e76f51;
-    position: relative;
-    top: 2px;
-    /* left: -3px; */
+    background-color: #f74b20;
 }
 
 .holdColorMin {
-    background-color: #e9c46a;
-    position: relative;
-    top: 2px;
-    left: 4px;
-}
-
-.minBlockHold p, .minBlockSell p, .minBlockBuy p {
-   margin-right: 15%;
-}
-
-.minBlock-percentageText {
-    font-size: 18pt;
-    color: #065a82;
+    background-color: #efb81d;
 }
 
 .buttonBlock {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
-    /* border: 2px solid red; */
     width: 50%;
+    margin: auto;
+    margin-top: 20px;
+    /* border: 2px solid red; */
+    /* width: 50%;
     margin: 10% 0 0 20%;
     position: fixed;
     top: 500px;
-    left: -340px;
+    left: -340px; */
 }
 
 .buyButton, .sellButton, .holdButton {
     border-radius: 5px;
     border: none;
     outline: none;
-    color: white;
-    padding: 15px;
+    padding: 12px 20px;
     box-shadow: 0px 1px 4px RGBa(0,0,0,0.18);
     font-size: 16px;
     cursor: pointer;
+    min-width: 120px;
+    background: white;
 }
 
 .buyButton {
-    background-color: #2a9d8f;
+    color: #1a82dc;
 }
 
 .sellButton {
-    background-color: #e76f51;
-
+    color: #e43535;
 }
 
 .holdButton {
-    background-color: #e9c46a;
-    color: black;
+    color: #ec9b20;
 }
 
 .disabled {
@@ -122,33 +110,38 @@
     justify-content: center;
     align-items: center;
     width: fit-content;
-    width: 800px;
+    width: 80%;
+    margin: auto;
 }
 
 .buyBlock, .sellBlock, .holdBlock {
-    height: 50px;
+    height: 36px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: width 200ms;
+    transition-timing-function: ease-in-out;
 }
 
 .buyBlock {
-    background-color: #2a9d8f;
+    background-color: #1a82dc;
     /* width: 200px; */
     border-radius: 5px 0 0 5px;
+    margin-right:1px;
 }
 
 .sellBlock {
-    background-color: #e76f51;
+    background-color: #e43535;
     /* width: 200px; */
+    border-radius: 0 5px 5px 0;
+    margin-left:1px;
 }
 
 .holdBlock {
-    background-color: #e9c46a;
+    background-color: #ec9b20;
     /* width: 200px; */
-    border-radius: 0 5px 5px 0;
 }
 
 .barText {
@@ -160,4 +153,12 @@
 
 .noVotes-text {
     font-size: x-large;
+}
+
+@media (max-width:980px){
+    .buyButton, .sellButton, .holdButton{
+        min-width: 90px;
+        margin-left: 4px;
+        margin-right: 8px;
+    }
 }
