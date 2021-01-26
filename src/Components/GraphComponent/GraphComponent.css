@@ -1,32 +1,41 @@
 .minColorBlock {
     position: relative;
-    bottom: 150px;
-    left: 700px;
+    bottom: 200px;
+    left: 650px;
     font-size: 14px;
+    text-align: left;
+    /* border: 2px solid red; */
+    width: 10vw;
+    /* padding: 0 5%; */
 }
 
 .minBlockBuy {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    width: 150px;
+    /* width: 150px; */
+    /* border: 2px solid #2a9d8f; */
+    width: 100%;
 }
 
 .minBlockSell {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    width: 150px;
+    /* width: 150px; */
+    width: 100%;
 }
 
 .minBlockHold {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    width: 150px;
+    /* width: 150px; */
+    width: 100%;
+    margin-left: -2%;
 }
 
 .buyColorMin, .selLColorMin, .holdColorMin {
@@ -37,14 +46,32 @@
 
 .buyColorMin {
     background-color: #2a9d8f;
+    position: relative;
+    top: 2px;
+    /* left: -2px; */
 }
 
 .selLColorMin {
     background-color: #e76f51;
+    position: relative;
+    top: 2px;
+    /* left: -3px; */
 }
 
 .holdColorMin {
     background-color: #e9c46a;
+    position: relative;
+    top: 2px;
+    left: 4px;
+}
+
+.minBlockHold p, .minBlockSell p, .minBlockBuy p {
+   margin-right: 15%;
+}
+
+.minBlock-percentageText {
+    font-size: 18pt;
+    color: #065a82;
 }
 
 .buttonBlock {

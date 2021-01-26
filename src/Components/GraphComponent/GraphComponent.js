@@ -265,33 +265,28 @@ const GraphComponent = ({ stockName }) => {
     return (
         <div>
             <div className="minColorBlock">
-                <div className="minBlockBuy">
-                    <div className="buyColorMin"></div>
-                    <p>BUY: {buyPercent}%</p>
-                </div>
-                <div className="minBlockSell">
-                    <div className="selLColorMin"></div>
-                    <p>SELL: { sellPercent }%</p>
-                </div>
-                <div className="minBlockHold">
-                    <div className="holdColorMin"></div>
-                    <p>HOLD: { holdPercent }%</p>
-                </div>
+                { (buyPercent > 0 || sellPercent > 0 || holdPercent > 0) && 
+                <>
+                    <div className="minBlockBuy">
+                        <div className="buyColorMin"></div>
+                        <p>BUY: <span className="minBlock-percentageText">{buyPercent}%</span></p>
+                    </div>
+                    <div className="minBlockSell">
+                        <div className="selLColorMin"></div>
+                        <p>SELL: <span className="minBlock-percentageText">{sellPercent}%</span></p>
+                    </div>
+                    <div className="minBlockHold">
+                        <div className="holdColorMin"></div>
+                        <p>HOLD: <span className="minBlock-percentageText">{holdPercent}%</span></p>
+                    </div>
+                </> 
+                }
             </div>
             { (buyPercent > 0 || sellPercent > 0 || holdPercent > 0) ?
                 <div className="barGraph">
-                    <div className="buyBlock" style={{ width: buyPercent+"%" }}>
-                        {/* {buyPercent > 0 && <p className="barText">BUY</p> } */}
-                        {/* {buyPercent > 0 && <p className="barText">{ buyPercent }%</p> } */}
-                    </div>
-                    <div className="sellBlock" style={{ width: sellPercent+"%" }}>
-                        {/* {sellPercent >0 && <p className="barText">SELL</p>} */}
-                        {/* {sellPercent >0 && <p className="barText">{ sellPercent }%</p>} */}
-                    </div>
-                    <div className="holdBlock" style={{ width: holdPercent+"%" }}>
-                        {/* { holdPercent > 0 && <p className="barText">HOLD</p>} */}
-                        {/* { holdPercent > 0 && <p className="barText">{ holdPercent }%</p>} */}
-                    </div>
+                    <div className="buyBlock" style={{ width: buyPercent+"%" }}></div>
+                    <div className="sellBlock" style={{ width: sellPercent+"%" }}></div>
+                    <div className="holdBlock" style={{ width: holdPercent+"%" }}></div>
                 </div> :
                 <div>
                     <p className="noVotes-text">No votes yet! Choose one below</p>
