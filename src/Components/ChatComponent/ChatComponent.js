@@ -1,6 +1,7 @@
 import React,{ useState, useEffect, createRef } from "react"
 import firebase from "firebase/app";
 import { firestore } from "../../FirebaseFunctions/firebase.utils"
+import publicIp from "public-ip";
 // import { IoIosArrowDropup } from "react-icons/io"
 
 import "./ChatComponent.css"
@@ -9,7 +10,19 @@ const ChatComponent = ({ stockName }) => {
     
     const [currentMessage, setCurrentMessage] = useState("")
     const [allMessages, setAllMessages] = useState([])
+    const [userIp, setUserIp] = useState("")
 
+    const getClientIp = async () => setUserIp(await publicIp.v4());
+    useState(() => getClientIp(),[])
+
+    //Saving userIp to the session storage
+    const saveUserIPToStorage = (ip) => {
+        sessionStorage.setItem("userIP", ip)
+    }
+
+    useEffect(() => {
+        saveUserIPToStorage(userIp)
+    },[userIp])
 
     //This ref is attached to the div in chatMessage block below
     const messagesEndRef = createRef()
@@ -37,11 +50,16 @@ const ChatComponent = ({ stockName }) => {
     }
 
     const handleSendMessage = async () => {
-        setAllMessages([...allMessages, currentMessage])
+        if(currentMessage.length>0) {
+            setAllMessages([...allMessages, currentMessage])
+        }
         setCurrentMessage("")
 
         await firestore.doc(`/stockDetails/${stockName}`).update({
-            chatMessages : firebase.firestore.FieldValue.arrayUnion(currentMessage)
+            chatMessages : firebase.firestore.FieldValue.arrayUnion({
+                message: currentMessage,
+                userIp
+            })
         })
     }
     
@@ -71,10 +89,15 @@ const ChatComponent = ({ stockName }) => {
                 {/* <p className="chatTitle">{stockName} discussion</p> */}
                 <div className="chatMessages">
                     {/* <div ref={messageStartRef} /> */}
-                    {allMessages && allMessages.map((message, index) => {
+                    {allMessages && allMessages.map((singleMessage, index) => {
                         return (
-                            <div key={index} className="singleMessage">
-                                <p>{message}</p>
+                            <div key={index} className={`singleMessage ${(sessionStorage['userIP'] === singleMessage.userIp) ? 'yourMessage' : ''}`}>
+                                <p>{singleMessage.message}</p>
+                                {/* { (sessionStorage['userIP'] === singleMessage.userIp) ? 
+                                        <p>Your Ip</p>
+                                        :
+                                        <p>Not your Ip</p>
+                                } */}
                             </div>
                         )
                     })}
