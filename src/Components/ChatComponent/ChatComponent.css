@@ -24,9 +24,10 @@
     /* box-shadow: 0px 8px 6px -6px RGBa(0,0,0,0.18); */
     /* border-radius: 10px; */
     /* width: 95%; */
-    padding: 20px;
-    padding-top: 0px;
+    padding: 0 20px;
+    /* padding-top: 0px; */
     box-sizing: border-box;
+    /* border: 2px solid red; */
 }
 
 .singleMessage {
@@ -45,6 +46,8 @@
     -webkit-hyphens: auto;
     hyphens: auto;
     font-size: 14px;
+    float: left;
+    clear: both;
 }
 
 .singleMessage p{
@@ -52,10 +55,22 @@
 }
 
 .yourMessage {
-    position: relative;
-    left: 83%;
+    /* position: relative; */
+    /* left: 83%; */
     background-color: #2274a5;
     color: #eaedf1;
+    /* margin-right: 50%; */
+    clear: both;
+    margin-right: 10px;
+    float: right;
+}
+
+.dummyDivChat {
+    position: sticky;
+    top: 500%;
+    width: 100px;
+    height: 100px;
+
 }
 
 .chatSendBlock {
