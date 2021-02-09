@@ -1,28 +1,23 @@
 import React,{ useState, useEffect, createRef } from "react"
 import firebase from "firebase/app";
 import { firestore } from "../../FirebaseFunctions/firebase.utils"
-import publicIp from "public-ip";
 // import { IoIosArrowDropup } from "react-icons/io"
 
 import "./ChatComponent.css"
 
-const ChatComponent = ({ stockName }) => {
+const ChatComponent = ({ stockName, userIp }) => {
     
     const [currentMessage, setCurrentMessage] = useState("")
     const [allMessages, setAllMessages] = useState([])
-    const [userIp, setUserIp] = useState("")
 
-    const getClientIp = async () => setUserIp(await publicIp.v4());
-    useState(() => getClientIp(),[])
-
-    //Saving userIp to the session storage
-    const saveUserIPToStorage = (ip) => {
-        sessionStorage.setItem("userIP", ip)
-    }
+    const [ipFromStorage, setIpFromStorage] = useState("")
 
     useEffect(() => {
-        saveUserIPToStorage(userIp)
+        if(localStorage['userIP']){
+            setIpFromStorage(localStorage['userIP'])
+        }
     },[userIp])
+
 
     //This ref is attached to the div in chatMessage block below
     const messagesEndRef = createRef()
@@ -33,6 +28,7 @@ const ChatComponent = ({ stockName }) => {
 
     const scrollToBottom = () => {
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+        console.log(31, 'scrolling')
     }
     //End of ref
 
@@ -51,7 +47,7 @@ const ChatComponent = ({ stockName }) => {
 
     const handleSendMessage = async () => {
         if(currentMessage.length>0) {
-            setAllMessages([...allMessages, currentMessage])
+            setAllMessages([...allMessages, {message: currentMessage, userIp}])
         }
         setCurrentMessage("")
 
@@ -89,20 +85,17 @@ const ChatComponent = ({ stockName }) => {
                 {/* <p className="chatTitle">{stockName} discussion</p> */}
                 <div className="chatMessages">
                     {/* <div ref={messageStartRef} /> */}
-                    {allMessages && allMessages.map((singleMessage, index) => {
+                    {(allMessages && ipFromStorage.length>0) && allMessages.map((singleMessage, index) => {
                         return (
-                            <div key={index} className={`singleMessage ${(sessionStorage['userIP'] === singleMessage.userIp) ? 'yourMessage' : ''}`}>
+                            <div key={index} className={`singleMessage ${(ipFromStorage === singleMessage.userIp) ? 'yourMessage' : ''}`}>
                                 <p>{singleMessage.message}</p>
-                                {/* { (sessionStorage['userIP'] === singleMessage.userIp) ? 
-                                        <p>Your Ip</p>
-                                        :
-                                        <p>Not your Ip</p>
-                                } */}
+                                {/* {JSON.stringify(ipFromStorage)}
+                                {JSON.stringify(singleMessage.userIp)} */}
                             </div>
                         )
                     })}
                     {/* <button onClick={scrollTop} className="goTopButton"><IoIosArrowDropup /></button> */}
-                    <div ref={messagesEndRef} />
+                    <div ref={messagesEndRef} className="dummyDivChat"/>
                 </div>
                 <div className="chatSendBlock">
                     <input type="text" placeholder="enter your message here" onChange={handleMessageChange} value={currentMessage} className="chatSendBlock-input"/>
