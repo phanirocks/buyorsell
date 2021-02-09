@@ -28,9 +28,13 @@ const ChatComponent = ({ stockName, userIp }) => {
 
     const scrollToBottom = () => {
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
-        console.log(31, 'scrolling')
+        // console.log(31, 'scrolling')
     }
     //End of ref
+
+    useEffect(() => {
+        // console.log(36, ipFromStorage, userIp)
+    },[userIp, ipFromStorage])
 
     // //Start ref
     // const messageStartRef = createRef()
@@ -85,9 +89,9 @@ const ChatComponent = ({ stockName, userIp }) => {
                 {/* <p className="chatTitle">{stockName} discussion</p> */}
                 <div className="chatMessages">
                     {/* <div ref={messageStartRef} /> */}
-                    {(allMessages && ipFromStorage.length>0) && allMessages.map((singleMessage, index) => {
+                    {(allMessages && userIp.length>0) && allMessages.map((singleMessage, index) => {
                         return (
-                            <div key={index} className={`singleMessage ${(ipFromStorage === singleMessage.userIp) ? 'yourMessage' : ''}`}>
+                            <div key={index} className={`singleMessage ${(userIp === singleMessage.userIp) ? 'yourMessage' : ''}`}>
                                 <p>{singleMessage.message}</p>
                                 {/* {JSON.stringify(ipFromStorage)}
                                 {JSON.stringify(singleMessage.userIp)} */}
