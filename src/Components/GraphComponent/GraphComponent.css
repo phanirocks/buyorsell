@@ -155,6 +155,20 @@
     font-size: x-large;
 }
 
+.animation {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    margin-top: 22px;
+}
+
+.animation img {
+    height: 260px;
+    transform: rotateY(180deg);
+    filter: brightness(1.05) contrast(1.2);
+}
+
 @media (max-width:980px){
     .buyButton, .sellButton, .holdButton{
         min-width: 90px;

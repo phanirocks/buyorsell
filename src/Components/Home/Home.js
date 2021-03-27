@@ -1,4 +1,5 @@
 import React from "react"
+import Logo from '../Logo/Logo'
 import Search from "../Search/Search"
 
 import "./Home.css"
@@ -6,7 +7,7 @@ import "./Home.css"
 const Home = () => {
     return (
         <div>
-            <h1>Buy or sell</h1>
+            <Logo />
             <Search />
         </div>
     )

@@ -3,6 +3,9 @@ import { createStockDocument , firestore } from "../../FirebaseFunctions/firebas
 import { useToasts } from 'react-toast-notifications';
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
 import { MdSentimentNeutral } from "react-icons/md";
+import bullish from '../../Images/bull.gif'
+import bearish from '../../Images/bear.gif'
+import holdish from '../../Images/hold.gif'
 
 
 import "./GraphComponent.css"
@@ -15,6 +18,9 @@ const GraphComponent = ({ stockName }) => {
     const [sellValue, setSellValue] = useState(0)
     const [holdValue, setHoldValue] = useState(0)
     const [userChoice, setUserChoice] = useState([])
+    const [bullAnimValue, setBullAnimValue] = useState(false)
+    const [sellAnimValue, setSellAnimValue] = useState(false)
+    const [holdAnimValue, setHoldAnimValue] = useState(true)
 
     const { addToast } = useToasts()
 
@@ -72,6 +78,24 @@ const GraphComponent = ({ stockName }) => {
 
     const notify = () => addToast("Duplicate vote!\nTry choosing other options if you change you view about this stock", { appearance : 'error', autoDismiss: true })
 
+    const triggerBuyAnim = () => {
+        setHoldAnimValue(false)
+        setSellAnimValue(false)
+        setBullAnimValue(true)
+    }
+
+    const triggerSellAnim = () => {
+        setHoldAnimValue(false)
+        setBullAnimValue(false)
+        setSellAnimValue(true)
+    }
+
+    const triggerHoldAnim = () => {
+        setBullAnimValue(false)
+        setSellAnimValue(false)
+        setHoldAnimValue(true)
+    }
+
     const handleBuySellHoldButtonClick = async e => {
         
         let buttonValue = e.target.value
@@ -113,7 +137,7 @@ const GraphComponent = ({ stockName }) => {
                     setButtonClicked(true)
                     setButtonClicked(false)                    
                 }
-                
+                triggerBuyAnim()
             } else if(buttonValue === "Sell") {
                 if(localStorage.getItem(`STOCK-${stockName}`)) {
                     let oldValueInLocalStorage = JSON.parse(localStorage.getItem(`STOCK-${stockName}`))
@@ -147,8 +171,7 @@ const GraphComponent = ({ stockName }) => {
                     setButtonClicked(true)
                     setButtonClicked(false)
                 }
-                
-                
+                triggerSellAnim()
             } else {                
                 if(localStorage.getItem(`STOCK-${stockName}`)) {
                     let oldValueInLocalStorage = JSON.parse(localStorage.getItem(`STOCK-${stockName}`))
@@ -182,7 +205,7 @@ const GraphComponent = ({ stockName }) => {
                     setButtonClicked(true)
                     setButtonClicked(false)
                 }
-                
+                triggerHoldAnim()
             }
         }
         setButtonClicked(false)   
@@ -302,6 +325,17 @@ const GraphComponent = ({ stockName }) => {
                 <button onClick={handleBuySellHoldButtonClick} value="Buy" className={displayBuyButton ? "buyButton" : "buyButton disabled"}>Buy</button>
                 <button onClick={handleBuySellHoldButtonClick} value="Hold" className={displayHoldButton ? "holdButton" : "holdButton disabled"}>Hold</button>
                 <button onClick={handleBuySellHoldButtonClick} value="Sell" className={displaySellButton ? "sellButton" : "sellButton disabled"}>Sell</button>
+            </div>
+            <div className='animation'>
+               {bullAnimValue ? (<div className='buyAnim'>
+                    <img src={bullish} />
+                </div>) : ''} 
+                {sellAnimValue ? (<div className='sellAnim'>
+                    <img src={bearish} />
+                </div>) : ''}
+                {holdAnimValue ? (<div className='holdAnim'>
+                    <img src={holdish} />
+                </div>) : ''}
             </div>
         </div>
     )
